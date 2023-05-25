@@ -28,9 +28,10 @@ Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app w
 import datetime
 import random
 
-from py4web import action, request, abort, redirect, URL
+from py4web.utils.form import Form, FormStyleBulma
+from py4web import action, request, abort, redirect, URL, Field
 from yatl.helpers import A
-from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
+from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash, Field
 from py4web.utils.url_signer import URLSigner
 from .models import get_username
 
@@ -125,3 +126,30 @@ def filter_restaurants():
     print(rows)
     print('\n\n\n')
     return dict(rows=rows)
+
+@action('add', method=["GET", "POST"])
+@action.uses(db, session, auth.user, 'add.html')
+def add_restaurant():
+    form = Form([Field('name'), 
+                 Field('city'),
+                 Field('zipCode'),
+                 Field('rating'),
+                 Field('number_of_reviews'),
+                 Field('cuisine'),
+                 Field('is_fastfood')
+                ],
+                csrf_session=session, formstyle=FormStyleBulma)
+    if form.accepted:
+        a = db.restaurant.insert()
+        db.restaurant.insert(
+            name=form.vars["name"], 
+            city=form.vars["city"],
+            zipCode=form.vars["zipCode"],
+            rating=form.vars["rating"],
+            number_of_reviews=form.vars["number_of_reviews"],
+            cuisine=form.vars["cuisine"],
+            is_fastfood=form.vars["is_fastfood"])
+        
+        redirect(URL('index'))
+
+    return dict(form=form)
