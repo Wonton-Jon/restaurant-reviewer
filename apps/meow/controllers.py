@@ -37,7 +37,7 @@ from .models import get_username
 url_signer = URLSigner(session)
 
 # Some constants.
-MAX_RETURNED_USERS = 20 # Our searches do not return more than 20 users.
+MAX_RETURNED_RESTAURANTS = 20 # Our searches do not return more than 20 users.
 MAX_RESULTS = 20 # Maximum number of returned meows. 
 
 @action('index')
@@ -45,7 +45,8 @@ MAX_RESULTS = 20 # Maximum number of returned meows.
 def index():
     return dict(
         get_current_user_url = URL('get_current_user', signer=url_signer),
-        filter_users_url = URL('filter_users', signer=url_signer),
+        filter_restaurants_url = URL('filter_restaurants', signer=url_signer),
+        get_restaurants_url = URL('get_restaurants', signer=url_signer),
         # COMPLETE: return here any signed URLs you need.
         get_users_url = URL('get_users', signer=url_signer),
         follow_url=URL('set_follow', signer=url_signer),
@@ -104,4 +105,23 @@ def get_current_user():
 def filter_users():
     text = request.GET.get("text", "")
     rows = db(db.auth_user.username.contains(text)).select()
+    return dict(rows=rows)
+
+#USED FOR PROJECT
+@action("get_restaurants")
+@action.uses(db)
+def get_restaurants():
+    #Get the list of ids of restaurants
+    restaurants = db(db.restaurant).select(orderby=~db.restaurant.rating).as_list()
+
+    return dict(restaurants=restaurants)
+
+@action("filter_restaurants", method="GET")
+@action.uses(db)
+def filter_restaurants():
+    text = request.GET.get("text", "")
+    rows = db(db.restaurant.name.contains(text)).select(orderby=db.restaurant.name)
+    print('in filter_restaurants\n\n\n')
+    print(rows)
+    print('\n\n\n')
     return dict(rows=rows)

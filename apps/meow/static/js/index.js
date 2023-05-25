@@ -3,7 +3,7 @@
 //const { default: axios } = require("axios");
 // and be used to initialize it.
 let app = {};
-let MAX_RETURNED_USERS = 20;
+let MAX_RETURNED_RESTAURANTS = 20;
 
 // Given an empty app object, initializes it filling its attributes,
 // creates a Vue instance, and then initializes the Vue instance.
@@ -13,6 +13,7 @@ let init = (app) => {
   app.data = {
     currentUser: null,
     users: [],
+    restaurants: [],
     text: "",
     results: [],
     followedUsers : []
@@ -27,59 +28,95 @@ let init = (app) => {
     return a;
   };
 
-  app.filterUsers = function() {
-    app.vue.results = app.vue.users.filter(function (item) {
+  app.filterRestaurants = function() {
+    app.vue.results = app.vue.restaurants.filter(function (restaurant) {
       return (
-        item.username.toLowerCase().indexOf(app.vue.text.toLowerCase()) >= 0
-        && item.username.toLowerCase() != app.vue.currentUser.username.toLowerCase()
+        restaurant.name.toLowerCase().indexOf(app.vue.text.toLowerCase()) >= 0
       );
     });
-    app.vue.results = app.vue.results.slice(0, MAX_RETURNED_USERS);
+    app.vue.results = app.vue.results.slice(0, MAX_RETURNED_RESTAURANTS);
   }
 
-  app.getUsers = function () {
-    axios.get(get_users_url).then(function (response) {
-        app.vue.followedUsers = app.enumerate(response.data.followed);
-        app.vue.users = response.data.followed.concat(response.data.unfollowed);
-        app.vue.results = app.enumerate(app.vue.users).slice(0, MAX_RETURNED_USERS);
+  app.getRestaurants = function () {
+    axios.get(get_restaurants_url).then(function (response) {
+        app.vue.restaurants = response.data.restaurants;
+        console.log(app.vue.restaurants);
+        app.vue.results = app.enumerate(app.vue.restaurants).slice(0, MAX_RETURNED_RESTAURANTS);
     });
-}
+  }
 
-  app.setFollow = function(user) {
-    console.log(`userFollowed = ${user.username}`);
+  app.addRestaurant = function(restaurant) {
+
+  }
+
+  app.removeRestaurant = function(restaurant) {
+    
+  }
+
+  // app.setFollow = function(user) {
+  //   console.log(`userFollowed = ${user.username}`);
+  //   fetch(follow_url, {
+  //       method: "POST",
+  //       headers: {
+  //       "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //       username: user.username,
+  //       }),
+  //   }).then((response) => response.json())
+  //     .then((data) => {
+  //     if (data.success) {
+  //         user.isFollowing = !user.isFollowing;
+  //         localStorage.setItem(user.id, user.isFollowing);
+  //     }//end if
+  //   });
+  //   app.getUsers();
+
+  // }
+  app.setFollow = function(restaurant) {
+    if(app.isFollowing(restaurant))
+      app.removeRestaurant(restaurant);
+    else
+      app.addRestaurant(restaurant);
+  }
+
+  app.isFollowing = function (restaurant) {
+    return restaurant.isFollowing;
+  }
+
+  app.addRestaurant = function(restaurant) {
+    console.log(`userFollowed = ${restaurant.name}`);
     fetch(follow_url, {
         method: "POST",
         headers: {
         "Content-Type": "application/json",
         },
         body: JSON.stringify({
-        username: user.username,
+        username: restaurant.name,
         }),
     }).then((response) => response.json())
       .then((data) => {
       if (data.success) {
-          user.isFollowing = !user.isFollowing;
-          localStorage.setItem(user.id, user.isFollowing);
+          restaurant.isFollowing = !restaurant.isFollowing;
+          localStorage.setItem(restaurant.id, restaurant.isFollowing);
       }//end if
     });
-    app.getUsers();
+    app.getRestaurants();
 
-  }
-
-  app.isFollowing = function (user) {
-    return user.isFollowing;
   }
 
   app.clearSearch = function() {
     app.vue.text = "";
-    app.getUsers();
-    app.vue.results = app.vue.results.slice(0, MAX_RETURNED_USERS);
+    app.getRestaurants();
+    app.vue.results = app.vue.results.slice(0, MAX_RETURNED_RESTAURANTS);
   }
 
   // This contains all the methods.
   app.methods = {
-    filterUsers : app.filterUsers,
-    getUsers : app.getUsers,
+    filterRestaurants : app.filterRestaurants,
+    getRestaurants : app.getRestaurants,
+    addRestaurant : app.addRestaurant,
+    removeRestaurant : app.removeRestaurant,
     setFollow : app.setFollow,
     clearSearch : app.clearSearch,
     isFollowing : app.isFollowing
@@ -94,7 +131,7 @@ let init = (app) => {
 
   // And this initializes it.
   app.init = () => {
-    app.getUsers();
+    app.getRestaurants();
     axios.get(get_current_user_url).then(function (responses) {
       app.vue.currentUser = responses.data.rows[0];
     });

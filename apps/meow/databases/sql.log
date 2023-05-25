@@ -36,3 +36,34 @@ CREATE TABLE "country"(
     "code" CHAR(512)
 );
 success!
+timestamp: 2023-05-24T16:41:26.318491
+CREATE TABLE "restaurants"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "restaurant_name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);
+success!
+timestamp: 2023-05-24T16:41:26.323825
+CREATE TABLE "tier_list"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_email" CHAR(512),
+    "restaurant_id" CHAR(512)
+);
+success!
+timestamp: 2023-05-24T16:48:40.457201
+CREATE TABLE "restaurant"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);
+success!

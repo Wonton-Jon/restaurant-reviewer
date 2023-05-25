@@ -29,33 +29,31 @@
         </p>
         <!-- Search users bar -->
         <p class="control has-icons-right">
-          <input class="input" id="searchBox" v-model="text" v-on:keyup="filterUsers" placeholder="Search Users"/>
+          <input class="input" id="searchBox" v-model="text" v-on:keyup="filterRestaurants()" placeholder="Search Restaurants"/>
           <span class="icon is-small is-right clickable" v-on:click="clearSearch">
             <i class="fa fa-times-circle"></i>
           </span>
         </p>
       </div>
-          <div v-for="user in results" v-on:click="setFollow(user)">
+          <div v-for="restaurant in results" v-on:click="setFollow(restaurant)">
               <div class="field has-addons">
                 <p class="control">
                   <button class="button">
-                    <span>{{user.username}}</span>
+                    <span>{{restaurant.name}}</span>
                   </button>
                 </p>
                 <!-- Follow/Unfollow button -->
                 <p class="control">
-                  <button v-if="isFollowing(user)" class="button is-danger is-outlined" v-on:click="setFollow(user)">
+                  <button v-if="isFollowing(restaurant)" class="button is-danger is-outlined" v-on:click="addRestaurant(restaurant)">
                     <span class="icon is-small">
-                      <i class="fa fa-times "></i>
+                      <i class="fa fa-minus "></i>
                     </span>
-                    <span>Unfollow</span>
                   </button>
 
-                  <button v-else class="button is-success is-outlined" v-on:click="setFollow(user)">
+                  <button v-else class="button is-success is-outlined" v-on:click="removeRestaurant(restaurant)">
                     <span class="icon is-small">
-                      <i class="fa fa-check "></i>
+                      <i class="fa fa-plus "></i>
                     </span>
-                    <span>Follow</span>
                   </button>
                 </p>
               </div>
@@ -71,7 +69,8 @@
 <script>
   let get_users_url = "[[=XML(get_users_url)]]";
   let follow_url = "[[=XML(follow_url)]]";
-  let filter_users_url = "[[=XML(filter_users_url)]]";
+  let filter_restaurants_url = "[[=XML(filter_restaurants_url)]]";
+  let get_restaurants_url = "[[=XML(get_restaurants_url)]]";
   let get_current_user_url = "[[=XML(get_current_user_url)]]";
 
 </script>
