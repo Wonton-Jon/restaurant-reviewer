@@ -37,6 +37,12 @@ db.define_table(
     #       default=lambda: session.user_id),
 )
 
+db.define_table(
+    "follow",
+    Field("follower", "reference auth_user"),
+    Field("followed", "reference auth_user"),
+)
+
 if db(db.restaurant).isempty():
     restaurants = [
         { 
