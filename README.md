@@ -1,5 +1,7 @@
 # Restaurant Reviewer
 
+[Google Drive](https://docs.google.com/document/d/1Yos_bq_YiWlVAogw0-5hyty0DJtQqCJaD0xtyaAnWvE/edit?usp=sharing)
+
 ### Features
 This project will allow people to create an accound and search for existing restaurants (fast food included but can be filtered our) by rating and type of cuisine. Each user will be able to have their own list of favorite restaurants that they can add or delete from. Each restaurant will show the number of users that have the restaurant saved as well as the reviews of each restaurant. Users can add restaurants that do not currently exist.
 
