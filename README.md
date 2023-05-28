@@ -8,7 +8,7 @@ This project will allow people to create an accound and search for existing rest
 This project was made for students new to Santa Cruz that are looking for good food in the area rated by other students. When searching Google for food, the recommended searches are based off of popularity without regard for expense. For example, I like poke, but found it scarce in Santa Cruz county; and all the places recommended were not that good. I was able to find some really good poke that still don't come up when I search for it :/
 ### Team members
 - Jonathan Aguirre
-- Jericho Mangalingdan
+- Jericho Mangalindan
 - Andrew Yamasaki
 
 ### Technologies Used
