@@ -227,3 +227,51 @@ CREATE TABLE "py4web_error"(
     "error" CHAR(512),
     "snapshot" TEXT
 );
+timestamp: 2023-05-28T17:48:13.092456
+CREATE TABLE "py4web_error"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "uuid" CHAR(512),
+    "app_name" CHAR(512),
+    "method" CHAR(512),
+    "path" CHAR(512),
+    "timestamp" TIMESTAMP,
+    "client_ip" CHAR(512),
+    "error" CHAR(512),
+    "snapshot" TEXT
+);
+timestamp: 2023-05-28T19:12:11.577132
+CREATE TABLE "py4web_error"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "uuid" CHAR(512),
+    "app_name" CHAR(512),
+    "method" CHAR(512),
+    "path" CHAR(512),
+    "timestamp" TIMESTAMP,
+    "client_ip" CHAR(512),
+    "error" CHAR(512),
+    "snapshot" TEXT
+);
+timestamp: 2023-05-28T19:14:08.868005
+CREATE TABLE "py4web_error"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "uuid" CHAR(512),
+    "app_name" CHAR(512),
+    "method" CHAR(512),
+    "path" CHAR(512),
+    "timestamp" TIMESTAMP,
+    "client_ip" CHAR(512),
+    "error" CHAR(512),
+    "snapshot" TEXT
+);
+timestamp: 2023-05-28T19:14:58.841877
+CREATE TABLE "py4web_error"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "uuid" CHAR(512),
+    "app_name" CHAR(512),
+    "method" CHAR(512),
+    "path" CHAR(512),
+    "timestamp" TIMESTAMP,
+    "client_ip" CHAR(512),
+    "error" CHAR(512),
+    "snapshot" TEXT
+);
