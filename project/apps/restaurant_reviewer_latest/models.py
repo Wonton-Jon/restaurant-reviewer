@@ -32,7 +32,7 @@ db.define_table(
 db.define_table(
     'tier_list',
     Field('user_email', default=get_user_email), #user email that added the restaurant
-    Field('restaurant_id'), #from db.restaurants.id
+    Field('restaurant_id'), #from db.restaurant.id
     # Field('created_by', 'reference auth_user',
     #       default=lambda: session.user_id),
 )

@@ -29,18 +29,21 @@ let init = (app) => {
   };
 
   app.filterRestaurants = function() {
-    app.vue.results = app.vue.restaurants.filter(function (restaurant) {
+    console.log("something");
+    console.log(`in filterRestaurantadsfasdf ${app.vue.results}`);
+    if(app.vue.restaurants.length > 0){
+      app.vue.results = app.vue.restaurants.filter(function (restaurant) {
       return (
         restaurant.name.toLowerCase().indexOf(app.vue.text.toLowerCase()) >= 0
       );
     });
+  }//end if
     app.vue.results = app.vue.results.slice(0, MAX_RETURNED_RESTAURANTS);
   }
 
   app.getRestaurants = function () {
     axios.get(get_restaurants_url).then(function (response) {
         app.vue.restaurants = response.data.restaurants;
-        console.log(app.vue.restaurants);
         app.vue.results = app.enumerate(app.vue.restaurants).slice(0, MAX_RETURNED_RESTAURANTS);
     });
   }

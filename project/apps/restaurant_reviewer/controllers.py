@@ -35,7 +35,18 @@ from .common import db, session, T, cache, auth, logger, authenticated, unauthen
 from py4web.utils.url_signer import URLSigner
 from .models import get_username
 
+from pydal.validators import (
+    CRYPT,
+    IS_EMAIL,
+    IS_EQUAL_TO,
+    IS_MATCH,
+    IS_NOT_EMPTY,
+    IS_NOT_IN_DB,
+    IS_STRONG,
+)
+
 url_signer = URLSigner(session)
+ne = IS_NOT_EMPTY()
 
 # Some constants.
 MAX_RETURNED_RESTAURANTS = 20 # Our searches do not return more than 20 users.
@@ -114,7 +125,6 @@ def filter_users():
 def get_restaurants():
     #Get the list of ids of restaurants
     restaurants = db(db.restaurant).select(orderby=~db.restaurant.rating).as_list()
-
     return dict(restaurants=restaurants)
 
 @action("filter_restaurants", method="GET")
@@ -130,23 +140,23 @@ def filter_restaurants():
 @action('add', method=["GET", "POST"])
 @action.uses(db, session, auth.user, 'add.html')
 def add_restaurant():
-    form = Form([Field('name'), 
+    form = Form([Field('name', required=True, requires=ne), 
                  Field('city'),
-                 Field('zipCode'),
-                 Field('rating'),
-                 Field('number_of_reviews'),
+                 Field('zipCode', requires=[
+                            IS_MATCH(r"^$|(^\d{5}$)|(^\d{9}$)|(^\d{5}-\d{4}$)"),
+                        ]),
                  Field('cuisine'),
-                 Field('is_fastfood')
+                 Field('is_fastfood', default=False)
                 ],
                 csrf_session=session, formstyle=FormStyleBulma)
-    if form.accepted:
-        a = db.restaurant.insert()
+
+    if form.accepted and form.vars["name"]:
         db.restaurant.insert(
             name=form.vars["name"], 
             city=form.vars["city"],
             zipCode=form.vars["zipCode"],
-            rating=form.vars["rating"],
-            number_of_reviews=form.vars["number_of_reviews"],
+            rating=0.0,
+            number_of_reviews=0,
             cuisine=form.vars["cuisine"],
             is_fastfood=form.vars["is_fastfood"])
         
