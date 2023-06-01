@@ -44,16 +44,9 @@ let init = (app) => {
   app.getRestaurants = function () {
     axios.get(get_restaurants_url).then(function (response) {
         app.vue.restaurants = response.data.restaurants;
+        console.log(`In getRestaurants: ${app.vue.restaurants}`);
         app.vue.results = app.enumerate(app.vue.restaurants).slice(0, MAX_RETURNED_RESTAURANTS);
     });
-  }
-
-  app.addRestaurant = function(restaurant) {
-
-  }
-
-  app.removeRestaurant = function(restaurant) {
-    
   }
 
   // app.setFollow = function(user) {
@@ -69,43 +62,20 @@ let init = (app) => {
   //   }).then((response) => response.json())
   //     .then((data) => {
   //     if (data.success) {
-  //         user.isFollowing = !user.isFollowing;
-  //         localStorage.setItem(user.id, user.isFollowing);
+  //         user.isFollowed = !user.isFollowed;
+  //         localStorage.setItem(user.id, user.isFollowed);
   //     }//end if
   //   });
   //   app.getUsers();
 
   // }
   app.setFollow = function(restaurant) {
-    if(app.isFollowing(restaurant))
-      app.removeRestaurant(restaurant);
-    else
-      app.addRestaurant(restaurant);
+    console.log(`in setFollow(): ${app.isFollowed(restaurant)}`);
+    restaurant.isFollowed = !restaurant.isFollowed;
   }
 
-  app.isFollowing = function (restaurant) {
-    return restaurant.isFollowing;
-  }
-
-  app.addRestaurant = function(restaurant) {
-    console.log(`userFollowed = ${restaurant.name}`);
-    fetch(follow_url, {
-        method: "POST",
-        headers: {
-        "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-        username: restaurant.name,
-        }),
-    }).then((response) => response.json())
-      .then((data) => {
-      if (data.success) {
-          restaurant.isFollowing = !restaurant.isFollowing;
-          localStorage.setItem(restaurant.id, restaurant.isFollowing);
-      }//end if
-    });
-    app.getRestaurants();
-
+  app.isFollowed = function (restaurant) {
+    return restaurant.isFollowed;
   }
 
   app.clearSearch = function() {
@@ -118,11 +88,9 @@ let init = (app) => {
   app.methods = {
     filterRestaurants : app.filterRestaurants,
     getRestaurants : app.getRestaurants,
-    addRestaurant : app.addRestaurant,
-    removeRestaurant : app.removeRestaurant,
     setFollow : app.setFollow,
     clearSearch : app.clearSearch,
-    isFollowing : app.isFollowing
+    isFollowed : app.isFollowed
   };
 
   // This creates the Vue instance.

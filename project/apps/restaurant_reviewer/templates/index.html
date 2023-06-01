@@ -39,7 +39,7 @@
           </span>
         </p>
       </div>
-          <div v-for="restaurant in results" v-on:click="setFollow(restaurant)">
+          <div v-for="restaurant in results" >
               <div class="field has-addons">
                 <p class="control">
                   <button class="button">
@@ -50,17 +50,12 @@
                 </p>
                 <!-- Follow/Unfollow button -->
                 <p class="control">
-                  <button v-if="isFollowing(restaurant)" class="button is-danger is-outlined" v-on:click="removeRestaurant(restaurant)">
+                  <button class="button is-outlined" :class="{ 'is-danger' : isFollowed(restaurant), 'is-success' : !isFollowed(restaurant)}" v-on:click="setFollow(restaurant)">
                     <span class="icon is-small">
-                      <i class="fa fa-minus "></i>
+                      <i class="fa" :class="{ 'fa-minus' : isFollowed(restaurant), 'fa-plus' : !isFollowed(restaurant)}"></i>
                     </span>
                   </button>
 
-                  <button v-else class="button is-success is-outlined" v-on:click="addRestaurant(restaurant)">
-                    <span class="icon is-small">
-                      <i class="fa fa-plus "></i>
-                    </span>
-                  </button>
                 </p>
               </div>
             </div>
