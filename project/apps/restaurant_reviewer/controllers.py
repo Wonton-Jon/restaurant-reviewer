@@ -84,17 +84,12 @@ def get_restaurants():
     #Get the list of ids of restaurants
     restaurants = db(db.restaurant).select(orderby=~db.restaurant.rating).as_list()
     current_user = get_current_user()
-    print('\n\n\n\nIn get_restaurants(): current_user')
-    print(current_user)
-    print('\n\n\n\n')
+    current_user['email'] = get_user_email()
+    
     #Get the restaurants that the user is following
     for restaurant in restaurants:
-        restaurant['isFollowed'] = db((db.tier_list.user_email == get_user_email()) & 
+        restaurant['isFollowed'] = db((db.tier_list.user_email == current_user['email']) & 
                                       (db.tier_list.restaurant_id == restaurant['id'])).count() >= 1
-
-    print('\n\n\n\nIn get_restaurants(): restaurants')
-    print(restaurants)
-    print('\n\n\n\n')
 
     return dict(restaurants=restaurants)
 
