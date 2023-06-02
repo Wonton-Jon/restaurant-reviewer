@@ -25,8 +25,7 @@ db.define_table(
     Field("zipCode", "integer"),
     Field("rating", default=0.0),
     Field("number_of_reviews", default=0),
-    Field("cuisine"),
-    Field("is_fastfood", default=False)
+    Field("cuisine")
 )
 
 db.define_table(
@@ -46,8 +45,7 @@ if db(db.restaurant).isempty():
             "zipCode": 95060,
             "rating": 4.4,
             "number_of_reviews": 2096,
-            "cuisine": "Hawaiian",
-            "is_fastfood": False            
+            "cuisine": "Hawaiian"           
         },
         { 
             "name": "Jack\'s Hamburgers", 
@@ -55,8 +53,7 @@ if db(db.restaurant).isempty():
             "zipCode": 95060,
             "rating": 4.5,
             "number_of_reviews": 977,
-            "cuisine": "American",
-            "is_fastfood": True            
+            "cuisine": "American"            
         },
         { 
             "name": "Taqueria Los Pericos", 
@@ -64,8 +61,7 @@ if db(db.restaurant).isempty():
             "zipCode": 95060,
             "rating": 4.6,
             "number_of_reviews": 2096,
-            "cuisine": "Mexican",
-            "is_fastfood": True            
+            "cuisine": "Mexican"            
         },
         { 
             "name": "Jack in the Box", 
@@ -73,8 +69,7 @@ if db(db.restaurant).isempty():
             "zipCode": 95060,
             "rating": 3.6,
             "number_of_reviews": 1623,
-            "cuisine": "American",
-            "is_fastfood": True            
+            "cuisine": "American"            
         },
         { 
             "name": "Ideal Bar & Grill", 
@@ -82,8 +77,7 @@ if db(db.restaurant).isempty():
             "zipCode": 95060,
             "rating": 4.0,
             "number_of_reviews": 2317,
-            "cuisine": "American",
-            "is_fastfood": False            
+            "cuisine": "American"           
         },
         { 
             "name": "Poke House", 
@@ -91,8 +85,7 @@ if db(db.restaurant).isempty():
             "zipCode": 95060,
             "rating": 4.3,
             "number_of_reviews": 247,
-            "cuisine": "Hawaiian Fusion",
-            "is_fastfood": True            
+            "cuisine": "Hawaiian Fusion"            
         },
         { 
             "name": "The Poke Bowl", 
@@ -100,8 +93,7 @@ if db(db.restaurant).isempty():
             "zipCode": 95060,
             "rating": 4.3,
             "number_of_reviews": 156,
-            "cuisine": "Hawaiian Fusion",
-            "is_fastfood": True            
+            "cuisine": "Hawaiian Fusion"            
         },
         { 
             "name": "Sabieng Thai Cuisine", 
@@ -109,8 +101,7 @@ if db(db.restaurant).isempty():
             "zipCode": 95060,
             "rating": 4.4,
             "number_of_reviews": 399,
-            "cuisine": "Thai",
-            "is_fastfood": False            
+            "cuisine": "Thai"           
         },
         { 
             "name": "Real Thai Kitchen", 
@@ -118,8 +109,7 @@ if db(db.restaurant).isempty():
             "zipCode": 95060,
             "rating": 4.1,
             "number_of_reviews": 317,
-            "cuisine": "Thai",
-            "is_fastfood": False            
+            "cuisine": "Thai"           
         },
         { 
             "name": "Royal Taj India Cuisine", 
@@ -127,8 +117,7 @@ if db(db.restaurant).isempty():
             "zipCode": 95060,
             "rating": 4.2,
             "number_of_reviews": 239,
-            "cuisine": "Indian",
-            "is_fastfood": False            
+            "cuisine": "Indian"           
         },
         { 
             "name": "L & L Hawaiian Barbeque", 
@@ -136,8 +125,7 @@ if db(db.restaurant).isempty():
             "zipCode": 95060,
             "rating": 4.1,
             "number_of_reviews": 596,
-            "cuisine": "Hawaiian",
-            "is_fastfood": True            
+            "cuisine": "Hawaiian"            
         },
         { 
             "name": "Namaste Indian Cuisine", 
@@ -145,8 +133,7 @@ if db(db.restaurant).isempty():
             "zipCode": 95060,
             "rating": 4.6,
             "number_of_reviews": 96,
-            "cuisine": "Indian",
-            "is_fastfood": False            
+            "cuisine": "Indian"           
         }
     ]
 
@@ -156,7 +143,6 @@ if db(db.restaurant).isempty():
                              zipCode=restaurant['zipCode'],
                              rating=restaurant['rating'],
                              number_of_reviews=restaurant['number_of_reviews'],
-                             cuisine=restaurant['cuisine'],
-                             is_fastfood=restaurant['is_fastfood'])
+                             cuisine=restaurant['cuisine'])
 
 db.commit()

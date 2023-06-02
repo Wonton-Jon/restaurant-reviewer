@@ -67,3 +67,4 @@ CREATE TABLE "restaurant"(
     "is_fastfood" CHAR(512)
 );
 success!
+success!

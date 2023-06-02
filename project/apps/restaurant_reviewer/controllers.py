@@ -110,8 +110,7 @@ def add_restaurant():
                  Field('zipCode', requires=[
                             IS_MATCH(r"^$|(^\d{5}$)|(^\d{9}$)|(^\d{5}-\d{4}$)"),
                         ]),
-                 Field('cuisine'),
-                 Field('is_fastfood', default=False)
+                 Field('cuisine')
                 ],
                 csrf_session=session, formstyle=FormStyleBulma)
 
@@ -123,8 +122,7 @@ def add_restaurant():
             zipCode=form.vars["zipCode"],
             rating=0.0,
             number_of_reviews=0,
-            cuisine=form.vars["cuisine"],
-            is_fastfood=form.vars["is_fastfood"])
+            cuisine=form.vars["cuisine"])
         
         redirect(URL('index'))
 
