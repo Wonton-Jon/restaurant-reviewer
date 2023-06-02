@@ -135,7 +135,6 @@ if db(db.restaurant).isempty():
             "number_of_reviews": 96,
             "cuisine": "Indian"           
         },
-
         { 
             "name": "Louders", 
             "city": "Los Angeles",
