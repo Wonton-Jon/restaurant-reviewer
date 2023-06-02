@@ -37,6 +37,7 @@ db.define_table(
     #       default=lambda: session.user_id),
 )
 
+
 if db(db.restaurant).isempty():
     restaurants = [
         { 
@@ -83,6 +84,69 @@ if db(db.restaurant).isempty():
             "number_of_reviews": 2317,
             "cuisine": "American",
             "is_fastfood": False            
+        },
+        { 
+            "name": "Poke House", 
+            "city": "Santa Cruz",
+            "zipCode": 95060,
+            "rating": 4.3,
+            "number_of_reviews": 247,
+            "cuisine": "Hawaiian Fusion",
+            "is_fastfood": True            
+        },
+        { 
+            "name": "The Poke Bowl", 
+            "city": "Santa Cruz",
+            "zipCode": 95060,
+            "rating": 4.3,
+            "number_of_reviews": 156,
+            "cuisine": "Hawaiian Fusion",
+            "is_fastfood": True            
+        },
+        { 
+            "name": "Sabieng Thai Cuisine", 
+            "city": "Santa Cruz",
+            "zipCode": 95060,
+            "rating": 4.4,
+            "number_of_reviews": 399,
+            "cuisine": "Thai",
+            "is_fastfood": False            
+        },
+        { 
+            "name": "Real Thai Kitchen", 
+            "city": "Santa Cruz",
+            "zipCode": 95060,
+            "rating": 4.1,
+            "number_of_reviews": 317,
+            "cuisine": "Thai",
+            "is_fastfood": False            
+        },
+        { 
+            "name": "Royal Taj India Cuisine", 
+            "city": "Santa Cruz",
+            "zipCode": 95060,
+            "rating": 4.2,
+            "number_of_reviews": 239,
+            "cuisine": "Indian",
+            "is_fastfood": False            
+        },
+        { 
+            "name": "L & L Hawaiian Barbeque", 
+            "city": "Santa Cruz",
+            "zipCode": 95060,
+            "rating": 4.1,
+            "number_of_reviews": 596,
+            "cuisine": "Hawaiian",
+            "is_fastfood": True            
+        },
+        { 
+            "name": "Namaste Indian Cuisine", 
+            "city": "Santa Cruz",
+            "zipCode": 95060,
+            "rating": 4.6,
+            "number_of_reviews": 96,
+            "cuisine": "Indian",
+            "is_fastfood": False            
         }
     ]
 
@@ -95,34 +159,4 @@ if db(db.restaurant).isempty():
                              cuisine=restaurant['cuisine'],
                              is_fastfood=restaurant['is_fastfood'])
 
-# db.define_table(
-#     "follow",
-#     Field("follower", "reference auth_user"),
-#     Field("followed", "reference auth_user"),
-# )
 db.commit()
-
-def add_users_for_testing(num_users):
-    # Test user names begin with "_".
-    # Counts how many users we need to add.
-    #db(db.auth_user.username.startswith("_")).delete()
-    num_test_users = 0#db(db.auth_user.username.startswith("_")).count()
-    num_new_users = num_users - num_test_users
-    print("Adding", num_new_users, "users.")
-    for k in range(num_test_users, 5):
-        first_name = random.choice(FIRST_NAMES)
-        last_name = first_name = random.choice(LAST_NAMES)
-        username = "_%s%.2i" % (first_name.lower(), k)
-        user = dict(
-            username=username,
-            email=username + "@ucsc.edu",
-            first_name=first_name,
-            last_name=last_name,
-            password=username,  # To facilitate testing.
-        )
-        auth.register(user, send=False)
-    db.commit()
-    
-# Comment out this line if you are not interested. 
-if db(db.auth_user).isempty():
-    add_users_for_testing(5)

@@ -36,13 +36,8 @@ from py4web.utils.url_signer import URLSigner
 from .models import get_username, get_user_email
 
 from pydal.validators import (
-    CRYPT,
-    IS_EMAIL,
-    IS_EQUAL_TO,
     IS_MATCH,
     IS_NOT_EMPTY,
-    IS_NOT_IN_DB,
-    IS_STRONG,
 )
 
 url_signer = URLSigner(session)
