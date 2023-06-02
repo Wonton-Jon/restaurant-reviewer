@@ -72,6 +72,10 @@ let init = (app) => {
   app.setFollow = function(restaurant) {
     console.log(`in setFollow(): ${app.isFollowed(restaurant)}`);
     restaurant.isFollowed = !restaurant.isFollowed;
+    axios.post(follow_url, {
+      restaurant_id : restaurant.id,
+      is_followed : restaurant.isFollowed
+    });
   }
 
   app.isFollowed = function (restaurant) {

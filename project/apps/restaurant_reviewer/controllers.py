@@ -83,11 +83,15 @@ def filter_users():
 def get_restaurants():
     #Get the list of ids of restaurants
     restaurants = db(db.restaurant).select(orderby=~db.restaurant.rating).as_list()
-
+    current_user = get_current_user()
+    print('\n\n\n\nIn get_restaurants(): current_user')
+    print(current_user)
+    print('\n\n\n\n')
     #Get the restaurants that the user is following
     for restaurant in restaurants:
         restaurant['isFollowed'] = db((db.tier_list.user_email == get_user_email()) & 
                                       (db.tier_list.restaurant_id == restaurant['id'])).count() >= 1
+
     print('\n\n\n\nIn get_restaurants(): restaurants')
     print(restaurants)
     print('\n\n\n\n')
@@ -139,10 +143,26 @@ def add_restaurant():
 @action("set_follow", method="POST")
 @action.uses(db, auth.user, url_signer.verify())
 def set_follow():
-    #Get True if restaurant is added to the list, false otherwise
-    is_added = request.json.get('isFollowing')
+    #Get the follow status and the restaurant ID that was added/removed from the list
+    is_followed = request.json.get('is_followed')
+    restaurant_id = request.json.get('restaurant_id')
 
-    print('\n\n\n\nIn set_follow(): is_added')
-    print(is_added)
+    print('\n\n\n\nIn set_follow(): is_followed, restaurant_id')
+    print(is_followed)
+    print(restaurant_id)
     print('\n\n\n\n')
+
+    #If the restaurant is added, then insert to tier list
+    #Otherwise remove from the tier list
+    if is_followed:
+        db.tier_list.insert(
+            user_email=get_user_email(),
+            restaurant_id=restaurant_id
+        )
+    else:
+        db((db.tier_list.user_email == get_user_email()) & (db.tier_list.restaurant_id == restaurant_id)).delete()
+    
+
+
+
     
