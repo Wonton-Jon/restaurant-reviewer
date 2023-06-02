@@ -33,16 +33,11 @@ from py4web import action, request, abort, redirect, URL, Field
 from yatl.helpers import A
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash, Field
 from py4web.utils.url_signer import URLSigner
-from .models import get_username
+from .models import get_username, get_user_email
 
 from pydal.validators import (
-    CRYPT,
-    IS_EMAIL,
-    IS_EQUAL_TO,
     IS_MATCH,
     IS_NOT_EMPTY,
-    IS_NOT_IN_DB,
-    IS_STRONG,
 )
 
 url_signer = URLSigner(session)
@@ -60,52 +55,10 @@ def index():
         filter_restaurants_url = URL('filter_restaurants', signer=url_signer),
         get_restaurants_url = URL('get_restaurants', signer=url_signer),
         # COMPLETE: return here any signed URLs you need.
-        get_users_url = URL('get_users', signer=url_signer),
         follow_url=URL('set_follow', signer=url_signer),
     )
 
-@action("get_users")
-@action.uses(db, auth.user)
-def get_users():
-    #Get the list of ids of users followed
-    users_followed = db(db.follow.follower == auth.current_user.get("id")).select(db.follow.followed).as_list()
-    ids_followed = []
-    for user in users_followed:
-        ids_followed.append(user["followed"])
-
-    #Create a dictionary with format (k,v) => (username : Boolean) 
-    #True if followed false otherwise
-    following = db(db.auth_user.id.belongs(ids_followed)).select(db.auth_user.username).as_list()
-    for user in following:
-        user['isFollowing'] = True
-    
-    #Get list of unfollowed users
-    not_following = db(~db.auth_user.id.belongs(ids_followed)).select(db.auth_user.username).as_list()
-    for user in not_following:
-        user['isFollowing'] = False
-    return dict(followed=following, unfollowed=not_following)
-
-
-@action("set_follow", method="POST")
-@action.uses(db, auth.user, url_signer.verify())
-def set_follow():
-    #Get the username 
-    username = request.json.get("username")
-    followed_user = db(db.auth_user.username == username).select().first()
-
-    #if the user exists then update the following
-    if followed_user:
-        followed = db((db.follow.follower == auth.current_user.get("id")) & (db.follow.followed == followed_user.id)).select().first()
-        
-        #Delete the user if they are followed, otherwise add them
-        if followed:
-            db(db.follow.id == followed.id).delete()
-        else:
-            db.follow.insert(follower=auth.current_user.get("id"), followed=followed_user.id)
-        return dict(success=True)
-    else:
-        return dict(success=False)
-
+#Get the current user
 @action("get_current_user", method="GET")
 @action.uses(db, auth.user)
 def get_current_user():
@@ -125,8 +78,18 @@ def filter_users():
 def get_restaurants():
     #Get the list of ids of restaurants
     restaurants = db(db.restaurant).select(orderby=~db.restaurant.rating).as_list()
+    current_user = get_current_user()
+    current_user['email'] = get_user_email()
+    
+    #Get the restaurants that the user is following
+    for restaurant in restaurants:
+        restaurant['isFollowed'] = db((db.tier_list.user_email == current_user['email']) & 
+                                      (db.tier_list.restaurant_id == restaurant['id'])).count() >= 1
+
     return dict(restaurants=restaurants)
 
+
+#Filter through all restaurants to get ones that contain the value text
 @action("filter_restaurants", method="GET")
 @action.uses(db)
 def filter_restaurants():
@@ -137,6 +100,8 @@ def filter_restaurants():
     print('\n\n\n')
     return dict(rows=rows)
 
+#Add restaurant to db
+#zipCode must be empty or correct formatted
 @action('add', method=["GET", "POST"])
 @action.uses(db, session, auth.user, 'add.html')
 def add_restaurant():
@@ -145,11 +110,11 @@ def add_restaurant():
                  Field('zipCode', requires=[
                             IS_MATCH(r"^$|(^\d{5}$)|(^\d{9}$)|(^\d{5}-\d{4}$)"),
                         ]),
-                 Field('cuisine'),
-                 Field('is_fastfood', default=False)
+                 Field('cuisine')
                 ],
                 csrf_session=session, formstyle=FormStyleBulma)
 
+    #If the form has a nonempty name
     if form.accepted and form.vars["name"]:
         db.restaurant.insert(
             name=form.vars["name"], 
@@ -157,9 +122,35 @@ def add_restaurant():
             zipCode=form.vars["zipCode"],
             rating=0.0,
             number_of_reviews=0,
-            cuisine=form.vars["cuisine"],
-            is_fastfood=form.vars["is_fastfood"])
+            cuisine=form.vars["cuisine"])
         
         redirect(URL('index'))
 
     return dict(form=form)
+
+@action("set_follow", method="POST")
+@action.uses(db, auth.user, url_signer.verify())
+def set_follow():
+    #Get the follow status and the restaurant ID that was added/removed from the list
+    is_followed = request.json.get('is_followed')
+    restaurant_id = request.json.get('restaurant_id')
+
+    print('\n\n\n\nIn set_follow(): is_followed, restaurant_id')
+    print(is_followed)
+    print(restaurant_id)
+    print('\n\n\n\n')
+
+    #If the restaurant is added, then insert to tier list
+    #Otherwise remove from the tier list
+    if is_followed:
+        db.tier_list.insert(
+            user_email=get_user_email(),
+            restaurant_id=restaurant_id
+        )
+    else:
+        db((db.tier_list.user_email == get_user_email()) & (db.tier_list.restaurant_id == restaurant_id)).delete()
+    
+
+
+
+    

@@ -25,8 +25,7 @@ db.define_table(
     Field("zipCode", "integer"),
     Field("rating", default=0.0),
     Field("number_of_reviews", default=0),
-    Field("cuisine"),
-    Field("is_fastfood", default=False)
+    Field("cuisine")
 )
 
 db.define_table(
@@ -37,11 +36,6 @@ db.define_table(
     #       default=lambda: session.user_id),
 )
 
-db.define_table(
-    "follow",
-    Field("follower", "reference auth_user"),
-    Field("followed", "reference auth_user"),
-)
 
 if db(db.restaurant).isempty():
     restaurants = [
@@ -51,8 +45,7 @@ if db(db.restaurant).isempty():
             "zipCode": 95060,
             "rating": 4.4,
             "number_of_reviews": 2096,
-            "cuisine": "Hawaiian",
-            "is_fastfood": False            
+            "cuisine": "Hawaiian"           
         },
         { 
             "name": "Jack\'s Hamburgers", 
@@ -60,8 +53,7 @@ if db(db.restaurant).isempty():
             "zipCode": 95060,
             "rating": 4.5,
             "number_of_reviews": 977,
-            "cuisine": "American",
-            "is_fastfood": True            
+            "cuisine": "American"            
         },
         { 
             "name": "Taqueria Los Pericos", 
@@ -69,8 +61,7 @@ if db(db.restaurant).isempty():
             "zipCode": 95060,
             "rating": 4.6,
             "number_of_reviews": 2096,
-            "cuisine": "Mexican",
-            "is_fastfood": True            
+            "cuisine": "Mexican"            
         },
         { 
             "name": "Jack in the Box", 
@@ -78,8 +69,7 @@ if db(db.restaurant).isempty():
             "zipCode": 95060,
             "rating": 3.6,
             "number_of_reviews": 1623,
-            "cuisine": "American",
-            "is_fastfood": True            
+            "cuisine": "American"            
         },
         { 
             "name": "Ideal Bar & Grill", 
@@ -87,8 +77,63 @@ if db(db.restaurant).isempty():
             "zipCode": 95060,
             "rating": 4.0,
             "number_of_reviews": 2317,
-            "cuisine": "American",
-            "is_fastfood": False            
+            "cuisine": "American"           
+        },
+        { 
+            "name": "Poke House", 
+            "city": "Santa Cruz",
+            "zipCode": 95060,
+            "rating": 4.3,
+            "number_of_reviews": 247,
+            "cuisine": "Hawaiian Fusion"            
+        },
+        { 
+            "name": "The Poke Bowl", 
+            "city": "Santa Cruz",
+            "zipCode": 95060,
+            "rating": 4.3,
+            "number_of_reviews": 156,
+            "cuisine": "Hawaiian Fusion"            
+        },
+        { 
+            "name": "Sabieng Thai Cuisine", 
+            "city": "Santa Cruz",
+            "zipCode": 95060,
+            "rating": 4.4,
+            "number_of_reviews": 399,
+            "cuisine": "Thai"           
+        },
+        { 
+            "name": "Real Thai Kitchen", 
+            "city": "Santa Cruz",
+            "zipCode": 95060,
+            "rating": 4.1,
+            "number_of_reviews": 317,
+            "cuisine": "Thai"           
+        },
+        { 
+            "name": "Royal Taj India Cuisine", 
+            "city": "Santa Cruz",
+            "zipCode": 95060,
+            "rating": 4.2,
+            "number_of_reviews": 239,
+            "cuisine": "Indian"           
+        },
+        { 
+            "name": "L & L Hawaiian Barbeque", 
+            "city": "Santa Cruz",
+            "zipCode": 95060,
+            "rating": 4.1,
+            "number_of_reviews": 596,
+            "cuisine": "Hawaiian"            
+        },
+        { 
+            "name": "Namaste Indian Cuisine", 
+            "city": "Santa Cruz",
+            "zipCode": 95060,
+            "rating": 4.6,
+            "number_of_reviews": 96,
+            "cuisine": "Indian"           
         }
     ]
 
@@ -98,37 +143,6 @@ if db(db.restaurant).isempty():
                              zipCode=restaurant['zipCode'],
                              rating=restaurant['rating'],
                              number_of_reviews=restaurant['number_of_reviews'],
-                             cuisine=restaurant['cuisine'],
-                             is_fastfood=restaurant['is_fastfood'])
+                             cuisine=restaurant['cuisine'])
 
-# db.define_table(
-#     "follow",
-#     Field("follower", "reference auth_user"),
-#     Field("followed", "reference auth_user"),
-# )
 db.commit()
-
-def add_users_for_testing(num_users):
-    # Test user names begin with "_".
-    # Counts how many users we need to add.
-    #db(db.auth_user.username.startswith("_")).delete()
-    num_test_users = 0#db(db.auth_user.username.startswith("_")).count()
-    num_new_users = num_users - num_test_users
-    print("Adding", num_new_users, "users.")
-    for k in range(num_test_users, 5):
-        first_name = random.choice(FIRST_NAMES)
-        last_name = first_name = random.choice(LAST_NAMES)
-        username = "_%s%.2i" % (first_name.lower(), k)
-        user = dict(
-            username=username,
-            email=username + "@ucsc.edu",
-            first_name=first_name,
-            last_name=last_name,
-            password=username,  # To facilitate testing.
-        )
-        auth.register(user, send=False)
-    db.commit()
-    
-# Comment out this line if you are not interested. 
-if db(db.auth_user).isempty():
-    add_users_for_testing(5)
