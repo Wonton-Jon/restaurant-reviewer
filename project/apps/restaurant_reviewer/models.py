@@ -134,6 +134,47 @@ if db(db.restaurant).isempty():
             "rating": 4.6,
             "number_of_reviews": 96,
             "cuisine": "Indian"           
+        },
+
+        { 
+            "name": "Louders", 
+            "city": "Los Angeles",
+            "zipCode": 90020,
+            "rating": 4.4,
+            "number_of_reviews": 153,
+            "cuisine": "Korean"           
+        },
+        { 
+            "name": "The Public Izakaya", 
+            "city": "San Francisco",
+            "zipCode": 94109,
+            "rating": 4.4,
+            "number_of_reviews": 93,
+            "cuisine": "Japanese"           
+        },
+        { 
+            "name": "Tokyo Fried Chicken", 
+            "city": "Los Angeles",
+            "zipCode": 91754,
+            "rating": 4.6,
+            "number_of_reviews": 499,
+            "cuisine": "Japanese"           
+        },
+        { 
+            "name": "Jollibee", 
+            "city": "San Jose",
+            "zipCode": 95122,
+            "rating": 4.3,
+            "number_of_reviews": 818,
+            "cuisine": "Filipino"           
+        },
+        { 
+            "name": "Tasty Pot", 
+            "city": "San Jose",
+            "zipCode": 95129,
+            "rating": 4.3,
+            "number_of_reviews": 433,
+            "cuisine": "Chinese"           
         }
     ]
 
