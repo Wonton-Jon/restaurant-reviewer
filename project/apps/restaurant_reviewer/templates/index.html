@@ -12,9 +12,19 @@
 
   <div class="columns">
     <div class="column">
-      Feed. 
+      <div class="container">
+        <div class="notification is-primary" style="font-size: x-large;">
+          <strong>All Restaurants</strong>
+        </div>
+        <p></p>
+        <div v-for="restaurant in restaurants" class="notification is-info">
+          <strong>{{restaurant.rating}} <i class="fa fa-star"></i> | {{restaurant.name}}</strong>
+          <br>
+          {{restaurant.city}} {{restaurant.zipCode}}
+        </div>
+      </div>
     </div>
-    random text here
+
     <div class="column is-one-third has-background-light">
       
       <div class="field">
@@ -22,7 +32,10 @@
           <div class="field has-addons">
             <p class="control">
               <button class="button">
-                <span>Recent Meows</span>
+                <span>Show All</span>
+              </button>
+              <button class="button">
+                <span>Your Saved</span>
               </button>
               <a class="button" href="[[=URL('add')]]">
                 <span class="icon"><i class="fa fa-plus"></i></span>
@@ -33,34 +46,30 @@
         </p>
         <!-- Search users bar -->
         <p class="control has-icons-right">
-          <input class="input" id="searchBox" v-model="text" v-on:keyup="filterRestaurants()" placeholder="Search Restaurants"/>
+          <input class="input" id="searchBox" v-model="text" v-on:keyup="filterRestaurants" placeholder="Search Restaurants"/>
           <span class="icon is-small is-right clickable" v-on:click="clearSearch">
             <i class="fa fa-times-circle"></i>
           </span>
         </p>
       </div>
-          <div v-for="restaurant in results" v-on:click="setFollow(restaurant)">
+          <div v-for="restaurant in results" >
               <div class="field has-addons">
                 <p class="control">
-                  <button class="button">
-                    <span>{{restaurant.name}} | {{restaurant.rating}}
+                  <button class="button" v-on:click="setFollow(restaurant)">
+                    <span>{{restaurant.rating}}
                       <i class="icon is-small fa fa-star "></i>
+                      | {{restaurant.name}}
                     </span>
                   </button>
                 </p>
                 <!-- Follow/Unfollow button -->
                 <p class="control">
-                  <button v-if="isFollowing(restaurant)" class="button is-danger is-outlined" v-on:click="addRestaurant(restaurant)">
+                  <button class="button is-outlined" :class="{ 'is-danger' : isFollowed(restaurant), 'is-success' : !isFollowed(restaurant)}" v-on:click="setFollow(restaurant)">
                     <span class="icon is-small">
-                      <i class="fa fa-minus "></i>
+                      <i class="fa" :class="{ 'fa-minus' : isFollowed(restaurant), 'fa-plus' : !isFollowed(restaurant)}"></i>
                     </span>
                   </button>
 
-                  <button v-else class="button is-success is-outlined" v-on:click="removeRestaurant(restaurant)">
-                    <span class="icon is-small">
-                      <i class="fa fa-plus "></i>
-                    </span>
-                  </button>
                 </p>
               </div>
             </div>
@@ -73,7 +82,6 @@
 [[block page_scripts]]
 <!-- Loads the index-specific js for Vue -->
 <script>
-  let get_users_url = "[[=XML(get_users_url)]]";
   let follow_url = "[[=XML(follow_url)]]";
   let filter_restaurants_url = "[[=XML(filter_restaurants_url)]]";
   let get_restaurants_url = "[[=XML(get_restaurants_url)]]";
