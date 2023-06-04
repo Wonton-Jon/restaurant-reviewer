@@ -12,7 +12,17 @@
 
   <div class="columns">
     <div class="column">
-      Feed. 
+      <div class="container">
+        <div class="notification is-primary" style="font-size: x-large;">
+          <strong>All Restaurants</strong>
+        </div>
+        <p></p>
+        <div v-for="restaurant in restaurants" class="notification is-info">
+          <strong>{{restaurant.rating}} <i class="fa fa-star"></i> | {{restaurant.name}}</strong>
+          <br>
+          {{restaurant.city}} {{restaurant.zipCode}}
+        </div>
+      </div>
     </div>
 
     <div class="column is-one-third has-background-light">
@@ -22,7 +32,10 @@
           <div class="field has-addons">
             <p class="control">
               <button class="button">
-                <span>Recent Meows</span>
+                <span>Show All</span>
+              </button>
+              <button class="button">
+                <span>Your Saved</span>
               </button>
               <a class="button" href="[[=URL('add')]]">
                 <span class="icon"><i class="fa fa-plus"></i></span>
