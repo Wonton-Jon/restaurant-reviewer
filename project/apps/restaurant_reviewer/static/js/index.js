@@ -11,7 +11,6 @@ let init = (app) => {
 
   // This is the Vue data.
   app.data = {
-    currentUser: null,
     users: [],
     restaurants: [],
     text: "",
@@ -29,8 +28,6 @@ let init = (app) => {
   };
 
   app.filterRestaurants = function() {
-    console.log("something");
-    console.log(`in filterRestaurantadsfasdf ${app.vue.results}`);
     if(app.vue.restaurants.length > 0){
       app.vue.results = app.vue.restaurants.filter(function (restaurant) {
       return (
@@ -44,33 +41,11 @@ let init = (app) => {
   app.getRestaurants = function () {
     axios.get(get_restaurants_url).then(function (response) {
         app.vue.restaurants = response.data.restaurants;
-        console.log(`In getRestaurants: ${app.vue.restaurants}`);
         app.vue.results = app.enumerate(app.vue.restaurants).slice(0, MAX_RETURNED_RESTAURANTS);
     });
   }
 
-  // app.setFollow = function(user) {
-  //   console.log(`userFollowed = ${user.username}`);
-  //   fetch(follow_url, {
-  //       method: "POST",
-  //       headers: {
-  //       "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //       username: user.username,
-  //       }),
-  //   }).then((response) => response.json())
-  //     .then((data) => {
-  //     if (data.success) {
-  //         user.isFollowed = !user.isFollowed;
-  //         localStorage.setItem(user.id, user.isFollowed);
-  //     }//end if
-  //   });
-  //   app.getUsers();
-
-  // }
   app.setFollow = function(restaurant) {
-    console.log(`in setFollow(): ${app.isFollowed(restaurant)}`);
     restaurant.isFollowed = !restaurant.isFollowed;
     axios.post(follow_url, {
       restaurant_id : restaurant.id,

@@ -95,9 +95,7 @@ def get_restaurants():
 def filter_restaurants():
     text = request.GET.get("text", "")
     rows = db(db.restaurant.name.contains(text)).select(orderby=db.restaurant.name)
-    print('in filter_restaurants\n\n\n')
-    print(rows)
-    print('\n\n\n')
+
     return dict(rows=rows)
 
 #Add restaurant to db
@@ -134,11 +132,6 @@ def set_follow():
     #Get the follow status and the restaurant ID that was added/removed from the list
     is_followed = request.json.get('is_followed')
     restaurant_id = request.json.get('restaurant_id')
-
-    print('\n\n\n\nIn set_follow(): is_followed, restaurant_id')
-    print(is_followed)
-    print(restaurant_id)
-    print('\n\n\n\n')
 
     #If the restaurant is added, then insert to tier list
     #Otherwise remove from the tier list
