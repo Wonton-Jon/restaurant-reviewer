@@ -15,7 +15,8 @@ let init = (app) => {
     restaurants: [],
     text: "",
     results: [],
-    followedUsers : []
+    displayRestaurants : [],
+    showAllRestaurants : true
   };
 
   app.enumerate = (a) => {
@@ -63,13 +64,33 @@ let init = (app) => {
     app.vue.results = app.vue.results.slice(0, MAX_RETURNED_RESTAURANTS);
   }
 
+  app.toggleDisplay = function(value) {
+    console.log(`value: ${value}`)    
+    console.log(`app.vue.showAllRestaurants: ${app.vue.showAllRestaurants}`)
+
+    app.vue.showAllRestaurants = value;
+    if(value) {
+      app.vue.displayRestaurants = app.vue.restaurants;
+    } else{
+    //If set to show saved, then set display to show only followed restaurants
+      app.vue.displayRestaurants = []
+      for (var i = 0; i < app.vue.restaurants.length; i++) {
+        if(app.vue.restaurants[i].isFollowed) {
+          app.vue.displayRestaurants.unshift(app.vue.restaurants[i]);
+          app.vue.displayRestaurants.sort((a, b) => (a.rating < b.rating) ? 1 : -1)
+        }//end if
+      }//end for
+    }//end if
+  }//end else
+
   // This contains all the methods.
   app.methods = {
     filterRestaurants : app.filterRestaurants,
     getRestaurants : app.getRestaurants,
     setFollow : app.setFollow,
     clearSearch : app.clearSearch,
-    isFollowed : app.isFollowed
+    isFollowed : app.isFollowed,
+    toggleDisplay : app.toggleDisplay
   };
 
   // This creates the Vue instance.
