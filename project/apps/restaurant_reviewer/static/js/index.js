@@ -11,12 +11,12 @@ let init = (app) => {
 
   // This is the Vue data.
   app.data = {
-    currentUser: null,
     users: [],
     restaurants: [],
     text: "",
     results: [],
-    followedUsers : []
+    displayRestaurants : [],
+    showAllRestaurants : true
   };
 
   app.enumerate = (a) => {
@@ -29,8 +29,6 @@ let init = (app) => {
   };
 
   app.filterRestaurants = function() {
-    console.log("something");
-    console.log(`in filterRestaurantadsfasdf ${app.vue.results}`);
     if(app.vue.restaurants.length > 0){
       app.vue.results = app.vue.restaurants.filter(function (restaurant) {
       return (
@@ -44,33 +42,11 @@ let init = (app) => {
   app.getRestaurants = function () {
     axios.get(get_restaurants_url).then(function (response) {
         app.vue.restaurants = response.data.restaurants;
-        console.log(`In getRestaurants: ${app.vue.restaurants}`);
         app.vue.results = app.enumerate(app.vue.restaurants).slice(0, MAX_RETURNED_RESTAURANTS);
     });
   }
 
-  // app.setFollow = function(user) {
-  //   console.log(`userFollowed = ${user.username}`);
-  //   fetch(follow_url, {
-  //       method: "POST",
-  //       headers: {
-  //       "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //       username: user.username,
-  //       }),
-  //   }).then((response) => response.json())
-  //     .then((data) => {
-  //     if (data.success) {
-  //         user.isFollowed = !user.isFollowed;
-  //         localStorage.setItem(user.id, user.isFollowed);
-  //     }//end if
-  //   });
-  //   app.getUsers();
-
-  // }
   app.setFollow = function(restaurant) {
-    console.log(`in setFollow(): ${app.isFollowed(restaurant)}`);
     restaurant.isFollowed = !restaurant.isFollowed;
     axios.post(follow_url, {
       restaurant_id : restaurant.id,
@@ -88,13 +64,33 @@ let init = (app) => {
     app.vue.results = app.vue.results.slice(0, MAX_RETURNED_RESTAURANTS);
   }
 
+  app.toggleDisplay = function(value) {
+    console.log(`value: ${value}`)    
+    console.log(`app.vue.showAllRestaurants: ${app.vue.showAllRestaurants}`)
+
+    app.vue.showAllRestaurants = value;
+    if(value) {
+      app.vue.displayRestaurants = app.vue.restaurants;
+    } else{
+    //If set to show saved, then set display to show only followed restaurants
+      app.vue.displayRestaurants = []
+      for (var i = 0; i < app.vue.restaurants.length; i++) {
+        if(app.vue.restaurants[i].isFollowed) {
+          app.vue.displayRestaurants.unshift(app.vue.restaurants[i]);
+          app.vue.displayRestaurants.sort((a, b) => (a.rating < b.rating) ? 1 : -1)
+        }//end if
+      }//end for
+    }//end if
+  }//end else
+
   // This contains all the methods.
   app.methods = {
     filterRestaurants : app.filterRestaurants,
     getRestaurants : app.getRestaurants,
     setFollow : app.setFollow,
     clearSearch : app.clearSearch,
-    isFollowed : app.isFollowed
+    isFollowed : app.isFollowed,
+    toggleDisplay : app.toggleDisplay
   };
 
   // This creates the Vue instance.
