@@ -25,18 +25,24 @@
             <br>
             {{restaurant.city}} {{restaurant.zipCode}}
             <br>
-            Rate Here: <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-            <i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>
-
-            <!-- This is the code for the star rating -->
-            <span @mouseout="stars_out(r._idx)">
-              <span @mouseover="stars_over(r._idx, star_idx)"
-                    @click="set_stars(r._idx, star_idx)"
-                    v-for="star_idx in [1, 2, 3, 4, 5]">
-                <i v-if="star_idx <= r.num_stars_display" class="fa fa-star"></i>
-                <i v-if="star_idx > r.num_stars_display" class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            Rate Here: 
+            <span>
+              <span v-for="star_idx in [1, 2, 3, 4, 5]">
+                <i v-if="star_idx <= restaurant.num_stars_display" class="fa fa-star"></i>
+                <i v-if="star_idx > restaurant.num_stars_display" class="fa fa-star-o"></i>
               </span>
             </span>
+
+            <!-- This is the code for the star rating -->
+            <!-- <span @mouseout="stars_out(restaurant._idx)">
+              <span @mouseover="stars_over(restaurant._idx, star_idx)"
+                    @click="set_stars(restaurant._idx, star_idx)"
+                    v-for="star_idx in [1, 2, 3, 4, 5]">
+                <i v-if="star_idx <= restaurant.num_stars_display" class="fa fa-star"></i>
+                <i v-if="star_idx > restaurant.num_stars_display" class="fa fa-star-o"></i>
+              </span>
+            </span> -->
 
 
           </div>

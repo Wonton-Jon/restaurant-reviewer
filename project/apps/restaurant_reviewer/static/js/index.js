@@ -92,17 +92,17 @@ let init = (app) => {
     })
   };
 
-  app.set_stars = (r_idx, num_stars) => {
-    let rate = app.vue.restaurants[r_idx];
-    rate.rating = num_stars;
-    // Sets the stars on the server.
-    axios.post(set_rating_url, {restaurant_id: rate.id, rating: num_stars});
-  };
+  // app.set_stars = (r_idx, num_stars) => {
+  //   let rate = app.vue.restaurants[r_idx];
+  //   rate.rating = num_stars;
+  //   // Sets the stars on the server.
+  //   axios.post(set_rating_url, {restaurant_id: rate.id, rating: num_stars});
+  // };
   
-  app.stars_out = (r_idx) => {
-    let rate = app.vue.restaurants[r_idx];
-    rate.num_stars_display = rate.rating;
-  };
+  // app.stars_out = (r_idx) => {
+  //   let rate = app.vue.restaurants[r_idx];
+  //   rate.num_stars_display = rate.rating;
+  // };
   
   app.stars_over = (r_idx, num_stars) => {
     let rate = app.vue.restaurants[r_idx];
@@ -117,8 +117,8 @@ let init = (app) => {
     clearSearch : app.clearSearch,
     isFollowed : app.isFollowed,
     toggleDisplay : app.toggleDisplay,
-    set_stars: app.set_stars,
-    stars_out: app.stars_out,
+    // set_stars: app.set_stars,
+    // stars_out: app.stars_out,
     stars_over: app.stars_over
   };
 
