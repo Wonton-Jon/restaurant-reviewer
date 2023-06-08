@@ -144,6 +144,31 @@ def set_follow():
         db((db.tier_list.user_email == get_user_email()) & (db.tier_list.restaurant_id == restaurant_id)).delete()
     
 
+# star rating modules
+@action('get_rating')
+@action.uses(url_signer.verify(), db, auth.user)
+def get_rating():
+    """Returns the rating for a user and an restaurant."""
+    restaurant_id = request.params.get('restaurant_id')
+    row = db((db.stars.restaurant_id == restaurant_id) &
+             (db.stars.rater == get_user_email())).select().first()
+    rating = row.rating if row is not None else 0
+    return dict(rating=rating)
+
+@action('set_rating', method='POST')
+@action.uses(url_signer.verify(), db, auth.user)
+def set_rating():
+    """Sets the rating for an restaurant."""
+    restaurant_id = request.json.get('restaurant_id')
+    rating = request.json.get('rating')
+    assert restaurant_id is not None and rating is not None
+    db.stars.update_or_insert(
+        ((db.stars.restaurant_id == restaurant_id) & (db.stars.rater == get_user_email())),
+        restaurant_id=restaurant_id,
+        rater=get_user_email(),
+        rating=rating
+    )
+    return "ok" # Just to have some confirmation in the Network tab.
 
 
     

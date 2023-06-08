@@ -70,3 +70,13 @@ success!
 success!
 success!
 success!
+success!
+success!
+timestamp: 2023-06-07T22:29:57.333750
+CREATE TABLE "stars"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "restaurant_id" INTEGER REFERENCES "restaurant" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ,
+    "rating" INTEGER,
+    "rater" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  
+);
+success!

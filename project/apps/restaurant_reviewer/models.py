@@ -36,6 +36,13 @@ db.define_table(
     #       default=lambda: session.user_id),
 )
 
+# star rating db
+db.define_table('stars',
+                Field('restaurant_id', 'reference restaurant'), # restaurant that is starred
+                Field('rating', 'integer', default=0),
+                Field('rater', 'reference auth_user', default=get_user_email) # user doing the rating
+                )
+
 
 if db(db.restaurant).isempty():
     restaurants = [
