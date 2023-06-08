@@ -92,6 +92,7 @@ let init = (app) => {
     })
   };
 
+
   // app.set_stars = (r_idx, num_stars) => {
   //   let rate = app.vue.restaurants[r_idx];
   //   rate.rating = num_stars;

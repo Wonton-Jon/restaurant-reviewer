@@ -28,7 +28,8 @@
             <i class="fa fa-star-o"></i>
             Rate Here: 
             <span>
-              <span v-for="star_idx in [1, 2, 3, 4, 5]">
+              <span v-for="star_idx in [1, 2, 3, 4, 5]"
+              @mouseover="stars_over(restaurant._idx, star_idx)">
                 <i v-if="star_idx <= restaurant.num_stars_display" class="fa fa-star"></i>
                 <i v-if="star_idx > restaurant.num_stars_display" class="fa fa-star-o"></i>
               </span>
