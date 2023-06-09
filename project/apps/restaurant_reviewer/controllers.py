@@ -171,4 +171,14 @@ def set_rating():
     return "ok" # Just to have some confirmation in the Network tab.
 
 
+@action('inc/<stars_id:int>', method=["GET", "POST"])
+@action.uses(db, auth.user, url_signer)
+def inc(stars_id=None):
+   assert stars_id is not None
+   b = db.stars[stars_id]
+   if b is None:
+        redirect(URL('index'))
+   b.update_record(u_rating=b.u_rating+1) #else, inc by +1
+   redirect(URL('index'))
+
     

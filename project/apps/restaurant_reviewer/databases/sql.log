@@ -81,3 +81,11 @@ CREATE TABLE "stars"(
 );
 success!
 success!
+success!
+success!
+success!
+timestamp: 2023-06-09T13:21:53.916606
+ALTER TABLE "stars" ADD "u_rating" INTEGER;
+success!
+success!
+success!
