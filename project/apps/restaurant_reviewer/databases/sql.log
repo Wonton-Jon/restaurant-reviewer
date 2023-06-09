@@ -80,3 +80,4 @@ CREATE TABLE "stars"(
     "rater" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  
 );
 success!
+success!

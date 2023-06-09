@@ -86,9 +86,10 @@ let init = (app) => {
 
   app.complete = (restaurants) => {
     // Initializes useful fields of restaurants.
-    restaurants.map((rate) => {
-        rate.rating = 0;
-        rate.num_stars_display = 0;
+    restaurants.map((restaurant) => {
+        restaurant.rating = 0;
+        restaurant.num_stars_display = 0;
+        console.log(restaurant.num_stars_display);
     })
   };
 
@@ -108,7 +109,16 @@ let init = (app) => {
   app.stars_over = (r_idx, num_stars) => {
     let rate = app.vue.restaurants[r_idx];
     rate.num_stars_display = num_stars;
+
+    console.log(rate);
   };
+
+  app.set_stars = (img_idx, num_stars) => {
+    let img = app.vue.images[img_idx];
+    img.rating = num_stars;
+    // Sets the stars on the server.
+    axios.post(set_rating_url, {image_id: img.id, rating: num_stars});
+};
 
   // This contains all the methods.
   app.methods = {
@@ -120,7 +130,8 @@ let init = (app) => {
     toggleDisplay : app.toggleDisplay,
     // set_stars: app.set_stars,
     // stars_out: app.stars_out,
-    stars_over: app.stars_over
+    stars_over: app.stars_over,
+    set_stars : app.set_stars
   };
 
   // This creates the Vue instance.
@@ -133,9 +144,20 @@ let init = (app) => {
   // And this initializes it.
   app.init = () => {
     app.getRestaurants();
-    axios.get(get_current_user_url).then(function (responses) {
-      app.vue.currentUser = responses.data.rows[0];
-    });
+    console.log("test");
+    console.log(app.vue.restaurants);
+    app.complete(app.vue.restaurants);
+      // Then we get the star ratings for each image.
+      // These depend on the user.
+      // for (let img of app.vue.images) {
+      //     axios.get(get_rating_url, {params: {"image_id": img.id}})
+      //         .then((result) => {
+      //             img.rating = result.data.rating;
+      //             img.num_stars_display = result.data.rating;
+      //         });
+      // }
+
+
   };
 
   // Call to the initializer.
