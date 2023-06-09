@@ -67,3 +67,168 @@ CREATE TABLE "restaurant"(
     "is_fastfood" CHAR(512)
 );
 success!
+timestamp: 2023-06-09T15:12:41.902819
+CREATE TABLE "restaurant"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);
+timestamp: 2023-06-09T15:13:47.151821
+CREATE TABLE "restaurant"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);
+timestamp: 2023-06-09T15:14:37.684683
+CREATE TABLE "restaurant"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);
+timestamp: 2023-06-09T15:17:33.018400
+CREATE TABLE "restaurant"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);
+timestamp: 2023-06-09T15:18:25.880208
+CREATE TABLE "restaurant"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);
+timestamp: 2023-06-09T15:20:20.708048
+CREATE TABLE "restaurant"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);
+timestamp: 2023-06-09T15:20:59.185416
+CREATE TABLE "restaurant"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);
+timestamp: 2023-06-09T15:21:38.672325
+CREATE TABLE "restaurant"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);
+timestamp: 2023-06-09T15:26:03.374954
+CREATE TABLE "restaurant"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);
+timestamp: 2023-06-09T15:36:08.913837
+CREATE TABLE "restaurant"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);
+timestamp: 2023-06-09T15:37:11.126791
+CREATE TABLE "restaurant"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);
+timestamp: 2023-06-09T15:37:52.422520
+CREATE TABLE "restaurant"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);
+timestamp: 2023-06-09T15:45:52.022997
+CREATE TABLE "restaurant"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);
+timestamp: 2023-06-09T15:49:25.485674
+CREATE TABLE "restaurant"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);
+timestamp: 2023-06-09T15:49:39.162206
+CREATE TABLE "restaurant"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);

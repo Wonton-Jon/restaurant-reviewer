@@ -47,6 +47,12 @@ ne = IS_NOT_EMPTY()
 MAX_RETURNED_RESTAURANTS = 20 # Our searches do not return more than 20 users.
 MAX_RESULTS = 20 # Maximum number of returned meows. 
 
+def getRating(restaurant):
+    if restaurant['number_of_reviews'] != 0.0:
+        return float(restaurant['number_of_stars']) / restaurant['number_of_reviews']
+    else:
+        return 0.0
+
 @action('index')
 @action.uses('index.html', db, auth.user, url_signer)
 def index():
@@ -77,7 +83,19 @@ def filter_users():
 @action.uses(db)
 def get_restaurants():
     #Get the list of ids of restaurants
-    restaurants = db(db.restaurant).select(orderby=~db.restaurant.rating).as_list()
+    restaurants = db(db.restaurant).select().as_list()
+
+    print('\n\n\n')
+    print('restaurants = ' + str(restaurants))
+    print(type(restaurants))
+    print('\n\n\n')
+
+    for restaurant in restaurants:
+        restaurant['rating'] = round(getRating(restaurant), 1)
+
+    
+    restaurants = sorted(restaurants, key=lambda x: x['rating'], reverse=True)
+
     current_user = get_current_user()
     current_user['email'] = get_user_email()
     
@@ -118,8 +136,6 @@ def add_restaurant():
             name=form.vars["name"], 
             city=form.vars["city"],
             zipCode=form.vars["zipCode"],
-            rating=0.0,
-            number_of_reviews=0,
             cuisine=form.vars["cuisine"])
         
         redirect(URL('index'))
