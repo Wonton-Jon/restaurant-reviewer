@@ -27,17 +27,10 @@
             <br>
             <i class="fa fa-star-o"></i>
             Rate Here: 
-            <span>
-              <span v-for="star_idx in [1, 2, 3, 4, 5]"
-              @mouseover="stars_over(restaurant._idx, star_idx)">
-                <i v-if="star_idx <= restaurant.num_stars_display" class="fa fa-star"></i>
-                <i v-if="star_idx > restaurant.num_stars_display" class="fa fa-star-o"></i>
-
-              </span>
-            </span>
-
             <br>
-            
+            <span @click="inc_stars(restaurant.id)">
+              <i class="fa fa-fw fa-plus"> inc</i>
+            </span>
 
             <!-- This is the code for the star rating -->
             <!-- <span @mouseout="stars_out(restaurant._idx)">
@@ -129,6 +122,7 @@
   let filter_restaurants_url = "[[=XML(filter_restaurants_url)]]";
   let get_restaurants_url = "[[=XML(get_restaurants_url)]]";
   let get_current_user_url = "[[=XML(get_current_user_url)]]";
+  let inc_stars_url = "[[=XML(inc_stars_url)]]";
 
 </script>
 <script src="js/index.js"></script>

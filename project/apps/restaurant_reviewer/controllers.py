@@ -54,6 +54,9 @@ def index():
         get_current_user_url = URL('get_current_user', signer=url_signer),
         filter_restaurants_url = URL('filter_restaurants', signer=url_signer),
         get_restaurants_url = URL('get_restaurants', signer=url_signer),
+
+        get_rating_url = URL('get_rating', signer=url_signer),
+        inc_stars_url = URL('inc_stars', signer=url_signer),
         # COMPLETE: return here any signed URLs you need.
         follow_url=URL('set_follow', signer=url_signer),
     )
@@ -171,14 +174,15 @@ def set_rating():
     return "ok" # Just to have some confirmation in the Network tab.
 
 
-@action('inc/<stars_id:int>', method=["GET", "POST"])
+@action('inc_stars', method=["GET", "POST"])
 @action.uses(db, auth.user, url_signer)
 def inc(stars_id=None):
+   
    assert stars_id is not None
-   b = db.stars[stars_id]
-   if b is None:
+   s = db.stars[stars_id]
+   if s is None:
         redirect(URL('index'))
-   b.update_record(u_rating=b.u_rating+1) #else, inc by +1
+   s.update_record(u_rating=s.u_rating+1) #else, inc by +1
    redirect(URL('index'))
 
     
