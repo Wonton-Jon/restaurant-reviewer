@@ -86,14 +86,8 @@ def get_restaurants():
     #Get the list of ids of restaurants
     restaurants = db(db.restaurant).select().as_list()
 
-    print('\n\n\n')
-    print('restaurants = ' + str(restaurants))
-    print(type(restaurants))
-    print('\n\n\n')
-
     for restaurant in restaurants:
         restaurant['rating'] = round(getRating(restaurant), 1)
-
     
     restaurants = sorted(restaurants, key=lambda x: x['rating'], reverse=True)
 
@@ -173,18 +167,46 @@ def set_stars():
     # db.stars.insert(restaurant_id=restaurant_id, rating=rating, rater=get_user_email() )
 
     # db((db.stars.rater == get_user_email()) & (db.stars.restaurant_id == restaurant_id)).delete()
-
+    current_restaurant = db(db.restaurant.id==restaurant_id).select().as_list()[0]
+    old_num_stars = current_restaurant['number_of_stars']
+    old_num_reviews = current_restaurant['number_of_reviews']
 
     # if rating exists, delete and make new, else insert new rating into db
-    if (db.stars.restaurant_id == restaurant_id) and (db.stars.rater == get_user_email()):
+    item = db((db.stars.restaurant_id == restaurant_id) & (db.stars.rater == get_user_email())).select().as_list()
+
+    if len(item) != 0:
+        print('\n\n\ninside of the true part\n\n\n')
+
+        old_stars_row = db((db.stars.rater == get_user_email()) & (db.stars.restaurant_id == restaurant_id)).select().as_list()
+        old_rating = old_stars_row[0]['rating']
+
+        new_num_stars = old_num_stars - old_rating + rating
+
         db((db.stars.rater == get_user_email()) & (db.stars.restaurant_id == restaurant_id)).delete()
         db.stars.insert(restaurant_id=restaurant_id, rating=rating, rater=get_user_email())
+
+        #update the numver of stars in restaurants
+        db.restaurant.update_or_insert(db.restaurant.id == restaurant_id,
+                                       number_of_stars=new_num_stars)
+
+        # new_star_count = db.restaurant.number_of_stars + rating - old_rating
+
+        # if (db.stars.restaurant_id == restaurant_id):
+        #     db.restaurant.insert(number_of_stars=new_star_count)
+        
+        
     else:
-        db.stars.insert(
-        restaurant_id=restaurant_id, 
-        rating=rating, 
-        rater=get_user_email()
-        )
+        print('\n\n\ninside of the eASDFKJASLDFASDFASDF ue part\n\n\n')
+
+        new_num_stars = old_num_stars + rating
+        new_num_reviews = old_num_reviews + 1
+
+        db.stars.insert(restaurant_id=restaurant_id, rating=rating, rater=get_user_email())
+
+        #update the numver of stars in restaurants
+        db.restaurant.update_or_insert(db.restaurant.id == restaurant_id,
+                                       number_of_stars=new_num_stars,
+                                       number_of_reviews=new_num_reviews)
     
 
     #Get the follow status and the restaurant ID that was added/removed from the list
