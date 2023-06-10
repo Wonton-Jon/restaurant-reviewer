@@ -62,6 +62,7 @@ def index():
         get_restaurants_url = URL('get_restaurants', signer=url_signer),
         # COMPLETE: return here any signed URLs you need.
         follow_url=URL('set_follow', signer=url_signer),
+        set_stars=URL('set_stars', signer=url_signer)
     )
 
 #Get the current user
@@ -186,5 +187,23 @@ def set_rating():
     )
     return "ok" # Just to have some confirmation in the Network tab.
 
+@action("set_stars", method="POST")
+@action.uses(db, auth.user, url_signer.verify())
+def set_stars():
+    #Get the follow status and the restaurant ID that was added/removed from the list
+    stars_id = request.json.get('stars_id')
+    restaurant_id = request.json.get('restaurant_id')
 
+    #If the restaurant is added, then insert to tier list
+    #Otherwise remove from the tier list
+    if stars_id is None:
+        db.stars.insert(
+            rater=get_user_email(),
+            restaurant_id=restaurant_id
+        )
+    else:
+        db((db.stars.rater == get_user_email()) & (db.stars.restaurant_id == restaurant_id)).delete()
+    
+    if db.stars.u_rating is None:
+        db.stars.insert(u_rating=0)
     
