@@ -189,11 +189,6 @@ def set_stars():
         db.restaurant.update_or_insert(db.restaurant.id == restaurant_id,
                                        number_of_stars=new_num_stars)
 
-        # new_star_count = db.restaurant.number_of_stars + rating - old_rating
-
-        # if (db.stars.restaurant_id == restaurant_id):
-        #     db.restaurant.insert(number_of_stars=new_star_count)
-        
         
     else:
         print('\n\n\ninside of the eASDFKJASLDFASDFASDF ue part\n\n\n')
