@@ -38,19 +38,19 @@
               </div>
               <div class="dropdown-menu" id="dropdown-menu" role="menu">
                 <div class="dropdown-content">
-                  <a class="dropdown-item" v-on:click="set_stars(restaurant, 5)">
+                  <a class="dropdown-item" v-on:click="setStars(restaurant, 5)">
                     5
                   </a>
-                  <a class="dropdown-item" v-on:click="set_stars(restaurant, 4)">
+                  <a class="dropdown-item" v-on:click="setStars(restaurant, 4)">
                     4
                   </a>
-                  <a class="dropdown-item" v-on:click="set_stars(restaurant, 3)">
+                  <a class="dropdown-item" v-on:click="setStars(restaurant, 3)">
                     3
                   </a>
-                  <a class="dropdown-item" v-on:click="set_stars(restaurant, 2)">
+                  <a class="dropdown-item" v-on:click="setStars(restaurant, 2)">
                     2
                   </a>
-                  <a class="dropdown-item" v-on:click="set_stars(restaurant, 1)">
+                  <a class="dropdown-item" v-on:click="setStars(restaurant, 1)">
                     1
                   </a>
 
@@ -158,6 +158,7 @@
   let filter_restaurants_url = "[[=XML(filter_restaurants_url)]]";
   let get_restaurants_url = "[[=XML(get_restaurants_url)]]";
   let get_current_user_url = "[[=XML(get_current_user_url)]]";
+  let set_stars_url = "[[=XML(set_stars_url)]]";
 
 </script>
 <script src="js/index.js"></script>

@@ -42,7 +42,7 @@ db.define_table(
 db.define_table('stars',
                 Field('restaurant_id', 'reference restaurant'), # restaurant that is starred
                 Field('rating', 'integer', default=0),
-                Field('rater', 'reference auth_user', default=get_user_email),
+                Field('rater', default=get_user_email),
     fake_migrate=False # user doing the rating
                 )
 

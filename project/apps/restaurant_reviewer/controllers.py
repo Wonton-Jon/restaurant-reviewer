@@ -62,7 +62,7 @@ def index():
         get_restaurants_url = URL('get_restaurants', signer=url_signer),
         # COMPLETE: return here any signed URLs you need.
         follow_url=URL('set_follow', signer=url_signer),
-        set_stars=URL('set_stars', signer=url_signer)
+        set_stars_url=URL('set_stars', signer=url_signer)
     )
 
 #Get the current user
@@ -159,51 +159,78 @@ def set_follow():
         )
     else:
         db((db.tier_list.user_email == get_user_email()) & (db.tier_list.restaurant_id == restaurant_id)).delete()
-    
 
-# star rating modules
-@action('get_rating')
-@action.uses(url_signer.verify(), db, auth.user)
-def get_rating():
-    """Returns the rating for a user and an restaurant."""
-    restaurant_id = request.params.get('restaurant_id')
-    row = db((db.stars.restaurant_id == restaurant_id) &
-             (db.stars.rater == get_user_email())).select().first()
-    rating = row.rating if row is not None else 0
-    return dict(rating=rating)
-
-@action('set_rating', method='POST')
-@action.uses(url_signer.verify(), db, auth.user)
-def set_rating():
-    """Sets the rating for an restaurant."""
-    restaurant_id = request.json.get('restaurant_id')
-    rating = request.json.get('rating')
-    assert restaurant_id is not None and rating is not None
-    db.stars.update_or_insert(
-        ((db.stars.restaurant_id == restaurant_id) & (db.stars.rater == get_user_email())),
-        restaurant_id=restaurant_id,
-        rater=get_user_email(),
-        rating=rating
-    )
-    return "ok" # Just to have some confirmation in the Network tab.
 
 @action("set_stars", method="POST")
 @action.uses(db, auth.user, url_signer.verify())
 def set_stars():
-    #Get the follow status and the restaurant ID that was added/removed from the list
-    stars_id = request.json.get('stars_id')
-    restaurant_id = request.json.get('restaurant_id')
 
-    #If the restaurant is added, then insert to tier list
-    #Otherwise remove from the tier list
-    if stars_id is None:
-        db.stars.insert(
-            rater=get_user_email(),
-            restaurant_id=restaurant_id
-        )
-    else:
+    
+    # axios.post(set_stars_url, {restaurant_id: restaurant.id, rating: num_stars});
+    restaurant_id = request.json.get('restaurant_id')
+    rating = request.json.get('rating')
+
+    # db.stars.insert(restaurant_id=restaurant_id, rating=rating, rater=get_user_email() )
+
+    # db((db.stars.rater == get_user_email()) & (db.stars.restaurant_id == restaurant_id)).delete()
+
+
+    # if rating exists, delete and make new, else insert new rating into db
+    if (db.stars.restaurant_id == restaurant_id) and (db.stars.rater == get_user_email()):
         db((db.stars.rater == get_user_email()) & (db.stars.restaurant_id == restaurant_id)).delete()
+        db.stars.insert(restaurant_id=restaurant_id, rating=rating, rater=get_user_email())
+    else:
+        db.stars.insert(
+        restaurant_id=restaurant_id, 
+        rating=rating, 
+        rater=get_user_email()
+        )
     
-    if db.stars.u_rating is None:
-        db.stars.insert(u_rating=0)
+
+    #Get the follow status and the restaurant ID that was added/removed from the list
+    # stars_id = request.json.get('stars_id')
+    # restaurant_id = request.json.get('restaurant_id')
+
+    # #If the restaurant is added, then insert to tier list
+    # #Otherwise remove from the tier list
+    # if stars_id is None:
+    #     db.stars.insert(
+    #         restaurant_id=restaurant_id,
+    #         # rating=num_stars,
+    #         rater=get_user_email()
+    #     )
+    # else:
+    #     db((db.stars.rater == get_user_email()) & (db.stars.restaurant_id == restaurant_id)).delete()
     
+    # if db.stars.u_rating is None:
+    #     db.stars.insert(u_rating=0)
+
+
+
+
+
+# # star rating modules
+# @action('get_rating')
+# @action.uses(url_signer.verify(), db, auth.user)
+# def get_rating():
+#     """Returns the rating for a user and an restaurant."""
+#     restaurant_id = request.params.get('restaurant_id')
+#     row = db((db.stars.restaurant_id == restaurant_id) &
+#              (db.stars.rater == get_user_email())).select().first()
+#     rating = row.rating if row is not None else 0
+#     return dict(rating=rating)
+
+# @action('set_rating', method='POST')
+# @action.uses(url_signer.verify(), db, auth.user)
+# def set_rating():
+#     """Sets the rating for an restaurant."""
+#     restaurant_id = request.json.get('restaurant_id')
+#     rating = request.json.get('rating')
+#     assert restaurant_id is not None and rating is not None
+#     db.stars.update_or_insert(
+#         ((db.stars.restaurant_id == restaurant_id) & (db.stars.rater == get_user_email())),
+#         restaurant_id=restaurant_id,
+#         rater=get_user_email(),
+#         rating=rating
+#     )
+#     return "ok" # Just to have some confirmation in the Network tab.

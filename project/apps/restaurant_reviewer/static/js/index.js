@@ -98,7 +98,9 @@ let init = (app) => {
   
   
 
-  app.set_stars = (restaurant, num_stars) => {
+  app.setStars = (restaurant, num_stars) => {
+    
+    console.log("Hello from app.set_stars " + num_stars + restaurant);
     
     // Sets the stars on the server.
     axios.post(set_stars_url, {restaurant_id: restaurant.id, rating: num_stars});
@@ -114,7 +116,7 @@ let init = (app) => {
     toggleDisplay : app.toggleDisplay,
     
     
-    set_stars : app.set_stars
+    setStars : app.setStars
   };
 
   // This creates the Vue instance.
