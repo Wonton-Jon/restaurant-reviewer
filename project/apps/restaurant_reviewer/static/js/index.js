@@ -83,21 +83,6 @@ let init = (app) => {
     }//end if
   }//end else
 
-
-  // app.set_stars = (r_idx, num_stars) => {
-  //   let rate = app.vue.restaurants[r_idx];
-  //   rate.rating = num_stars;
-  //   // Sets the stars on the server.
-  //   axios.post(set_rating_url, {restaurant_id: rate.id, rating: num_stars});
-  // };
-  
-  // app.stars_out = (r_idx) => {
-  //   let rate = app.vue.restaurants[r_idx];
-  //   rate.num_stars_display = rate.rating;
-  // };
-  
-  
-
   app.setStars = (restaurant, num_stars) => {
     
     console.log("Hello from app.set_stars " + num_stars + restaurant);

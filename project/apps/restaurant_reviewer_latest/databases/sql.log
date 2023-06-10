@@ -353,3 +353,14 @@ CREATE TABLE "restaurant"(
     "cuisine" CHAR(512),
     "is_fastfood" CHAR(512)
 );
+timestamp: 2023-06-09T23:18:58.296087
+CREATE TABLE "restaurant"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "city" CHAR(512),
+    "zipcode" INTEGER,
+    "rating" CHAR(512),
+    "number_of_reviews" CHAR(512),
+    "cuisine" CHAR(512),
+    "is_fastfood" CHAR(512)
+);
