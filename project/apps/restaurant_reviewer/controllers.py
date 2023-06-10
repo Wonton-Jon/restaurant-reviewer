@@ -47,6 +47,12 @@ ne = IS_NOT_EMPTY()
 MAX_RETURNED_RESTAURANTS = 20 # Our searches do not return more than 20 users.
 MAX_RESULTS = 20 # Maximum number of returned meows. 
 
+def getRating(restaurant):
+    if restaurant['number_of_reviews'] != 0.0:
+        return float(restaurant['number_of_stars']) / restaurant['number_of_reviews']
+    else:
+        return 0.0
+
 @action('index')
 @action.uses('index.html', db, auth.user, url_signer)
 def index():
@@ -56,6 +62,7 @@ def index():
         get_restaurants_url = URL('get_restaurants', signer=url_signer),
         # COMPLETE: return here any signed URLs you need.
         follow_url=URL('set_follow', signer=url_signer),
+        set_stars_url=URL('set_stars', signer=url_signer)
     )
 
 #Get the current user
@@ -77,7 +84,13 @@ def filter_users():
 @action.uses(db)
 def get_restaurants():
     #Get the list of ids of restaurants
-    restaurants = db(db.restaurant).select(orderby=~db.restaurant.rating).as_list()
+    restaurants = db(db.restaurant).select().as_list()
+
+    for restaurant in restaurants:
+        restaurant['rating'] = round(getRating(restaurant), 1)
+    
+    restaurants = sorted(restaurants, key=lambda x: x['rating'], reverse=True)
+
     current_user = get_current_user()
     current_user['email'] = get_user_email()
     
@@ -118,8 +131,6 @@ def add_restaurant():
             name=form.vars["name"], 
             city=form.vars["city"],
             zipCode=form.vars["zipCode"],
-            rating=0.0,
-            number_of_reviews=0,
             cuisine=form.vars["cuisine"])
         
         redirect(URL('index'))
@@ -142,8 +153,44 @@ def set_follow():
         )
     else:
         db((db.tier_list.user_email == get_user_email()) & (db.tier_list.restaurant_id == restaurant_id)).delete()
-    
 
 
+@action("set_stars", method="POST")
+@action.uses(db, auth.user, url_signer.verify())
+def set_stars():
+    # axios.post(set_stars_url, {restaurant_id: restaurant.id, rating: num_stars});
+    restaurant_id = request.json.get('restaurant_id')
+    rating = request.json.get('rating')
 
+    current_restaurant = db(db.restaurant.id==restaurant_id).select().as_list()[0]
+    old_num_stars = current_restaurant['number_of_stars']
+    old_num_reviews = current_restaurant['number_of_reviews']
+
+    # if rating exists, delete and make new, else insert new rating into db
+    item = db((db.stars.restaurant_id == restaurant_id) & (db.stars.rater == get_user_email())).select().as_list()
+
+    if len(item) != 0:
+        old_stars_row = db((db.stars.rater == get_user_email()) & (db.stars.restaurant_id == restaurant_id)).select().as_list()
+        old_rating = old_stars_row[0]['rating']
+
+        new_num_stars = old_num_stars - old_rating + rating
+
+        db((db.stars.rater == get_user_email()) & (db.stars.restaurant_id == restaurant_id)).delete()
+        db.stars.insert(restaurant_id=restaurant_id, rating=rating, rater=get_user_email())
+
+        #update the numver of stars in restaurants
+        db.restaurant.update_or_insert(db.restaurant.id == restaurant_id,
+                                       number_of_stars=new_num_stars)
+
+        
+    else:
+        new_num_stars = old_num_stars + rating
+        new_num_reviews = old_num_reviews + 1
+
+        db.stars.insert(restaurant_id=restaurant_id, rating=rating, rater=get_user_email())
+
+        #update the numver of stars in restaurants
+        db.restaurant.update_or_insert(db.restaurant.id == restaurant_id,
+                                       number_of_stars=new_num_stars,
+                                       number_of_reviews=new_num_reviews)
     

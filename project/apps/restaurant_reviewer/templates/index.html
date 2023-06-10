@@ -8,7 +8,6 @@
 
 
 <div class="section" id="vue-target" v-cloak>
-  <!-- Put here your Vue.js template -->
 
   <div class="columns">
     <div class="column">
@@ -24,6 +23,40 @@
             <strong>{{restaurant.rating}} <i class="fa fa-star"></i> | {{restaurant.name}}</strong>
             <br>
             {{restaurant.city}} {{restaurant.zipCode}}
+            <br>
+
+
+            <div class="dropdown is-hoverable">
+              <div class="dropdown-trigger">
+                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+                  <span>Your Rating</span>
+                  <span class="icon is-small">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                <div class="dropdown-content">
+                  <a class="dropdown-item" v-on:click="setStars(restaurant, 5)">
+                    5
+                  </a>
+                  <a class="dropdown-item" v-on:click="setStars(restaurant, 4)">
+                    4
+                  </a>
+                  <a class="dropdown-item" v-on:click="setStars(restaurant, 3)">
+                    3
+                  </a>
+                  <a class="dropdown-item" v-on:click="setStars(restaurant, 2)">
+                    2
+                  </a>
+                  <a class="dropdown-item" v-on:click="setStars(restaurant, 1)">
+                    1
+                  </a>
+
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
         <div v-if="!showAllRestaurants">
@@ -103,6 +136,7 @@
   let filter_restaurants_url = "[[=XML(filter_restaurants_url)]]";
   let get_restaurants_url = "[[=XML(get_restaurants_url)]]";
   let get_current_user_url = "[[=XML(get_current_user_url)]]";
+  let set_stars_url = "[[=XML(set_stars_url)]]";
 
 </script>
 <script src="js/index.js"></script>

@@ -1,6 +1,4 @@
 // This will be the object that will contain the Vue attributes
-
-//const { default: axios } = require("axios");
 // and be used to initialize it.
 let app = {};
 let MAX_RETURNED_RESTAURANTS = 20;
@@ -83,6 +81,17 @@ let init = (app) => {
     }//end if
   }//end else
 
+
+  app.setStars = (restaurant, num_stars) => {
+    
+    console.log("Hello from app.set_stars " + num_stars + restaurant);
+    
+    // Sets the stars on the server.
+    axios.post(set_stars_url, {restaurant_id: restaurant.id, rating: num_stars}).then(() => {    app.getRestaurants();  app.vue.toggleDisplay(true);  });
+
+
+};
+
   // This contains all the methods.
   app.methods = {
     filterRestaurants : app.filterRestaurants,
@@ -90,7 +99,8 @@ let init = (app) => {
     setFollow : app.setFollow,
     clearSearch : app.clearSearch,
     isFollowed : app.isFollowed,
-    toggleDisplay : app.toggleDisplay
+    toggleDisplay : app.toggleDisplay,
+    setStars : app.setStars
   };
 
   // This creates the Vue instance.
@@ -103,9 +113,7 @@ let init = (app) => {
   // And this initializes it.
   app.init = () => {
     app.getRestaurants();
-    axios.get(get_current_user_url).then(function (responses) {
-      app.vue.currentUser = responses.data.rows[0];
-    });
+
   };
 
   // Call to the initializer.
