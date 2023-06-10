@@ -103,7 +103,9 @@ let init = (app) => {
     console.log("Hello from app.set_stars " + num_stars + restaurant);
     
     // Sets the stars on the server.
-    axios.post(set_stars_url, {restaurant_id: restaurant.id, rating: num_stars});
+    axios.post(set_stars_url, {restaurant_id: restaurant.id, rating: num_stars}).then(() => {    app.getRestaurants();  app.vue.toggleDisplay(true);  });
+
+
 };
 
   // This contains all the methods.

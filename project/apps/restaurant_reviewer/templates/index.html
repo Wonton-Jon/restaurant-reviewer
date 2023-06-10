@@ -59,25 +59,6 @@
             </div>
 
 
-            <!-- <span>
-              <span v-for="star_idx in [1, 2, 3, 4, 5]"
-              @mouseover="stars_over(restaurant._idx, star_idx)">
-                <i v-if="star_idx <= restaurant.num_stars_display" class="fa fa-star"></i>
-                <i v-if="star_idx > restaurant.num_stars_display" class="fa fa-star-o"></i>
-
-              </span>
-            </span> -->
-
-            <!-- This is the code for the star rating -->
-            <!-- <span @mouseout="stars_out(restaurant._idx)">
-              <span @mouseover="stars_over(restaurant._idx, star_idx)"
-                    @click="set_stars(restaurant._idx, star_idx)"
-                    v-for="star_idx in [1, 2, 3, 4, 5]">
-                <i v-if="star_idx <= restaurant.num_stars_display" class="fa fa-star"></i>
-                <i v-if="star_idx > restaurant.num_stars_display" class="fa fa-star-o"></i>
-              </span>
-            </span> -->
-
 
           </div>
         </div>
@@ -90,6 +71,41 @@
             <strong>{{restaurant.rating}} <i class="fa fa-star"></i> | {{restaurant.name}}</strong>
             <br>
             {{restaurant.city}} {{restaurant.zipCode}}
+
+            <br>
+
+
+            <div class="dropdown is-hoverable">
+              <div class="dropdown-trigger">
+                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+                  <span>Your Rating</span>
+                  <span class="icon is-small">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                <div class="dropdown-content">
+                  <a class="dropdown-item" v-on:click="setStars(restaurant, 5)">
+                    5
+                  </a>
+                  <a class="dropdown-item" v-on:click="setStars(restaurant, 4)">
+                    4
+                  </a>
+                  <a class="dropdown-item" v-on:click="setStars(restaurant, 3)">
+                    3
+                  </a>
+                  <a class="dropdown-item" v-on:click="setStars(restaurant, 2)">
+                    2
+                  </a>
+                  <a class="dropdown-item" v-on:click="setStars(restaurant, 1)">
+                    1
+                  </a>
+
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       
